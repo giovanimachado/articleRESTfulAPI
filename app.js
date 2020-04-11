@@ -27,6 +27,8 @@ const Article = mongoose.model('Article', articleSchema);
 
 //Using app.route() form express
 // https://expressjs.com/en/guide/routing.html
+
+//**************** Requesting targetting all articles *********** //
 app.route('/articles')
 
   .get(function(req, res){
@@ -68,6 +70,64 @@ app.route('/articles')
       }
     });
   });
+
+//************* Requesting targetting specifc article *********** //
+
+app.route('/articles/:title')
+
+  .get(function(req, res){
+    Article.findOne({title: req.params.title}, function(err, searchResult){
+      if (!err){
+        // console.log(searchResult);
+        if (searchResult){
+          res.send(searchResult);
+        } else {
+          res.send("No article match this title");
+        }
+      } else {
+        res.send(err);
+        console.log(err);
+      }
+    });
+  })
+
+  .put(function(req, res){
+    Article.update(
+      {title: req.params.title}, // condition received through HTTP request
+      {title: req.body.title, content: req.body.content}, // what update
+      {overwrite: true}, // Substitute the document
+      function(err, results){
+        if(!err){
+          res.send("Success: updated article");
+        }
+      }
+    );
+  })
+
+  .patch(function(req, res){
+    console.log("update: "+ req.body + " to: "+  req.body.title);
+    Article.update(
+      {title: req.params.title}, // condition received through HTTP request
+      {$set: req.body}, // what needs to be updated
+      function(err, results){
+        if(!err){
+          res.send("Success: updated with patch article");
+        }
+      }
+    );
+  })
+
+  .delete(function(req, res) {
+    Article.deleteOne({title: req.params.title}, function (err) {
+      if (!err){
+        res.send("Article "+ req.params.title +" deleted");
+      } else {
+        res.send(err);
+    // deleted at most one tank document
+      }
+    });
+  });
+
 
 app.listen(3000, function(){
   console.log('Server is running on port 3000');
