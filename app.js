@@ -25,45 +25,49 @@ const articleSchema = {
 
 const Article = mongoose.model('Article', articleSchema);
 
-app.get('/articles', function(req, res){
-  Article.find({}, function(err, searchResult){
-    if (!err){
-      // console.log(searchResult);
-      res.send(searchResult);
-    } else {
-      res.send(err);
-      console.log(err);
-    }
-  });
-});
+//Using app.route() form express
+// https://expressjs.com/en/guide/routing.html
+app.route('/articles')
 
-app.post('/articles', function(req, res){
-  const articleTitle = req.body.title;
-  const articleContent = req.body.content;
-  const newArticle = new Article({
-    title: articleTitle,
-    content: articleContent
-  });
-  newArticle.save(function(err){
-    if (!err){
-      res.send("Success");
-    } else {
-      res.send(err);
-    }
-  });
-  // To save data in MongoDB
-});
+  .get(function(req, res){
+    Article.find({}, function(err, searchResult){
+      if (!err){
+        // console.log(searchResult);
+        res.send(searchResult);
+      } else {
+        res.send(err);
+        console.log(err);
+      }
+    });
+  })
 
-app.delete('/articles', function(req, res) {
-  Article.deleteMany({}, function (err) {
-    if (!err){
-      res.send("Articles deleted");
-    } else {
-      res.send(err);
-  // deleted at most one tank document
-    }
+  .post(function(req, res){
+    const articleTitle = req.body.title;
+    const articleContent = req.body.content;
+    const newArticle = new Article({
+      title: articleTitle,
+      content: articleContent
+    });
+    newArticle.save(function(err){
+      if (!err){
+        res.send("Success");
+      } else {
+        res.send(err);
+      }
+    });
+    // To save data in MongoDB
+  })
+
+  .delete(function(req, res) {
+    Article.deleteMany({}, function (err) {
+      if (!err){
+        res.send("Articles deleted");
+      } else {
+        res.send(err);
+    // deleted at most one tank document
+      }
+    });
   });
-});
 
 app.listen(3000, function(){
   console.log('Server is running on port 3000');
