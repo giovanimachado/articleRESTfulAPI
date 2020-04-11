@@ -1,0 +1,22 @@
+{
+  "name": "section30_restfullapi",
+  "version": "1.0.0",
+  "description": "RESTfull API to connect to an article DataBase",
+  "main": "index.js",
+  "scripts": {
+    "test": "\u001b[A\u001b[B\u001b[A\u001b[3~\u001b[B"
+  },
+  "keywords": [
+    "node.js",
+    "REST",
+    "API"
+  ],
+  "author": "Giovani",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.0.2",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.7"
+  }
+}
