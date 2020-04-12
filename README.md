@@ -1,4 +1,4 @@
-# ** articleRESTfulAPI **
+# **articleRESTfulAPI**
 
 Project created to learn RESTfull API implementation
 
